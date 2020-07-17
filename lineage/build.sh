@@ -7,7 +7,6 @@
 #
 
 # Variables set in Jenkins environment
-# VERSION
 # REPO_SYNC
 # DEVICE
 # BUILDTYPE
@@ -15,7 +14,7 @@
 #
 
 # Preset variables
-LINEAGE_ROOT=/home/jenkins/android/lineage/"${VERSION}"
+LINEAGE_ROOT=/home/jenkins/android/lineage
 LINEAGE_OUT="$LINEAGE_ROOT"/out/target/product
 FILE_HOST=/home/jenkins/nginx
 CCACHE_EXEC=$(command -v ccache)
@@ -24,16 +23,12 @@ export KBUILD_BUILD_USER=jleeblanch
 export KBUILD_BUILD_HOST=hazard-BoX
 export CCACHE_DIR=/home/jenkins/.ccache
 export USE_CCACHE=1
-
-if [ "${VERSION}" == 17.1 ]; then
-    export CCACHE_EXEC
-fi
+export CCACHE_EXEC
 
 echo "[+] Build variables..."
 echo KBUILD_BUILD_USER="$KBUILD_BUILD_USER"
 echo KBUILD_BUILD_HOST="$KBUILD_BUILD_HOST"
 echo USER="$USER"
-echo VERSION="${VERSION}"
 echo DEVICE="${DEVICE}"
 echo BUILDTYPE="${BUILDTYPE}"
 echo LINEAGE_ROOT="$LINEAGE_ROOT"
@@ -80,11 +75,11 @@ time mka bacon
 # shellcheck disable=SC2181
 if [ $? -eq 0 ]; then
     echo "[+] Build completed successfully..."
-    ls "$LINEAGE_OUT"/"${DEVICE}"/lineage-"${VERSION}"-*.zip
+    ls "$LINEAGE_OUT"/"${DEVICE}"/lineage-*.zip
 
     echo "[+] Copying build to downloads..."
-    cp -v "$LINEAGE_OUT"/"${DEVICE}"/lineage-"${VERSION}"-*.zip "$FILE_HOST"/LineageOS/"${DEVICE}"/
-    #cp -v "$LINEAGE_OUT"/"${DEVICE}"/lineage-"${VERSION}"-*.md5sum "$FILE_HOST"/LineageOS/"${DEVICE}"/
+    cp -v "$LINEAGE_OUT"/"${DEVICE}"/lineage-*.zip "$FILE_HOST"/LineageOS/"${DEVICE}"/
+    #cp -v "$LINEAGE_OUT"/"${DEVICE}"/lineage-*.md5sum "$FILE_HOST"/LineageOS/"${DEVICE}"/
 else
     echo "[+] Bruh, you have failed this city..."
     exit 1
