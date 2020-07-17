@@ -38,7 +38,7 @@ echo REPO_SYNC="${REPO_SYNC}"
 
 cd "$LINEAGE_ROOT" || exit 1
 
-if [ "${REPO_SYNC}" == yes ]; then
+if [ "${REPO_SYNC}" == true ]; then
 	echo '[+] Syncing repos...'
 	repo sync -c --force-sync --no-clone-bundle --no-tags
 fi
@@ -54,18 +54,18 @@ if [[ "$TARGET_PRODUCT" != lineage_* ]]; then
     exit 1
 fi
 
-if [ "${CLEAN}" == yes ]; then
+if [ "${CLEAN}" != true ]; then
+    echo "[+] Removing zips, images, and staging directories..."
+    mka installclean
+    rm -rf "$LINEAGE_OUT"/"${DEVICE}"/lineage*.zip && \
+    rm -rf "$LINEAGE_OUT"/"${DEVICE}"/obj/PACKAGING/target_files_intermediates/* && \
+    rm -rf "$LINEAGE_OUT"/"${DEVICE}"/product && \
+    rm -rf "$LINEAGE_OUT"/"${DEVICE}"/system && \
+    rm -rf "$LINEAGE_OUT"/"${DEVICE}"/vendor
+else
     echo "[+] Removing entire out directory..."
     mka clobber
     rm -rf "$LINEAGE_ROOT"/out
-else
-    echo "[+] Removing zips, images, and staging directories..."
-    mka installclean
-    rm -rf "$LINEAGE_OUT"/"${DEVICE}"/lineage*.zip
-    rm -rf "$LINEAGE_OUT"/"${DEVICE}"/obj/PACKAGING/target_files_intermediates/*
-    rm -rf "$LINEAGE_OUT"/"${DEVICE}"/product
-    rm -rf "$LINEAGE_OUT"/"${DEVICE}"/system
-    rm -rf "$LINEAGE_OUT"/"${DEVICE}"/vendor
 fi
 
 echo "[+] Starting build..."
