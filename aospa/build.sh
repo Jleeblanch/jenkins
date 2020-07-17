@@ -3,7 +3,7 @@
 #
 # Jenkins build script for AOSPA
 # Author: Joshua Blanchard (jleeblanch)
-# Credits: 
+# Credits: moto-SDM6xx crew, Lineage Team
 #
 
 # Variables set in jenkins environment
