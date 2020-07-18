@@ -38,7 +38,7 @@ echo REPO_SYNC="${REPO_SYNC}"
 
 cd "$LINEAGE_ROOT" || exit 1
 
-if [ "${REPO_SYNC}" == true ]; then
+if [[ "${REPO_SYNC}" == true ]]; then
 	echo '[+] Syncing repos...'
 	repo sync -c --force-sync --no-clone-bundle --no-tags
 fi
@@ -54,7 +54,7 @@ if [[ "$TARGET_PRODUCT" != lineage_* ]]; then
     exit 1
 fi
 
-if [ "${CLEAN}" != true ]; then
+if [[ "${CLEAN}" != true ]]; then
     echo "[+] Removing zips, images, and staging directories..."
     mka installclean
     rm -rf "$LINEAGE_OUT"/"${DEVICE}"/lineage*.zip && \
@@ -73,7 +73,7 @@ echo "[+] Starting build..."
 time mka bacon
 
 # shellcheck disable=SC2181
-if [ $? -eq 0 ]; then
+if [[ $? -eq 0 ]]; then
     echo "[+] Build completed successfully..."
     ls "$LINEAGE_OUT"/"${DEVICE}"/lineage-*.zip
 

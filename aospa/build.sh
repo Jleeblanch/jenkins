@@ -28,7 +28,7 @@ export CCACHE_DIR=/home/jenkins/.ccache
 export USE_CCACHE=1
 export CCACHE_EXEC
 
-if [ "${DISABLE_GAPPS}" == true ]; then
+if [[ "${DISABLE_GAPPS}" == true ]]; then
     echo "[+] Disabling GApps..."
     export TARGET_DISABLES_GAPPS=true
 fi
@@ -50,10 +50,10 @@ echo PA_SCRIPT="${PA_SCRIPT}"
 
 cd "$AOSPA_ROOT" || exit 1 # Bail here if cd fails
 
-if [ "${REPO_SYNC}" == true ]; then
+if [[ "${REPO_SYNC}" == true ]]; then
 	echo '[+] Syncing repos...'
 	# Remove roomservice.xml before sync, we have our own local manifest
-	if [ -f "$ROOMSERVICE" ]; then
+	if [[ -f "$ROOMSERVICE" ]]; then
 	    rm -rf "$ROOMSERVICE"
 	fi
 	repo sync -c --force-sync --no-clone-bundle --no-tags
@@ -70,7 +70,7 @@ if [[ "$TARGET_PRODUCT" != pa_* ]]; then
     exit 1
 fi
 
-if [ "${CLEAN}" != true ]; then
+if [[ "${CLEAN}" != true ]]; then
     echo "[+] Removing zips, images, and staging directories..."
     mka installclean
     rm -rf "$AOSPA_OUT"/"${DEVICE}"/pa-*.zip && \
@@ -86,7 +86,7 @@ else
     rm -rf "$AOSPA_ROOT"/pa-*.zip
 fi
 
-if [ "${PA_SCRIPT}" != true ]; then
+if [[ "${PA_SCRIPT}" != true ]]; then
     echo "[+] Starting build..."
     # time mka bootimage
     time mka bacon
@@ -96,7 +96,7 @@ else
 fi
 
 # shellcheck disable=SC2181
-if [ $? -eq 0 ]; then
+if [[ $? -eq 0 ]]; then
     echo "[+] Build completed successfully..."
     ls "$AOSPA_OUT"/"${DEVICE}"/pa-*-"${DEVICE}"-*.zip
 
